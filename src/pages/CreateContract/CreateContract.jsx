@@ -24,8 +24,14 @@ function increaseSize(parentElement) {
     var currentHeight = element.offsetHeight
     element.style.width = currentWidth * 1.1 + "px"
     element.style.height = currentHeight * 1.1 + "px"
-    console.log("🚀 ~ increaseSize ~ element.style.height:", element.style.height)
-    console.log("🚀 ~ increaseSize ~  element.style.width:", element.style.width)
+    console.log(
+      "🚀 ~ increaseSize ~ element.style.height:",
+      element.style.height
+    )
+    console.log(
+      "🚀 ~ increaseSize ~  element.style.width:",
+      element.style.width
+    )
   } else if (parentElement.id === "drag_date") {
     const element = document.getElementById("signed_date")
     var computedFontSize = window.getComputedStyle(element).fontSize
@@ -48,8 +54,14 @@ function decreaseSize(parentElement) {
     var currentHeight = element.offsetHeight
     element.style.width = currentWidth / 1.1 + "px"
     element.style.height = currentHeight / 1.1 + "px"
-    console.log("🚀 ~ increaseSize ~ element.style.height:", element.style.height)
-    console.log("🚀 ~ increaseSize ~  element.style.width:", element.style.width)
+    console.log(
+      "🚀 ~ increaseSize ~ element.style.height:",
+      element.style.height
+    )
+    console.log(
+      "🚀 ~ increaseSize ~  element.style.width:",
+      element.style.width
+    )
   } else if (parentElement.id === "drag_date") {
     const element = document.getElementById("signed_date")
     var computedFontSize = window.getComputedStyle(element).fontSize
@@ -131,7 +143,8 @@ const CreateContract = () => {
       const typedarray = new Uint8Array(this.result)
 
       // Configure the worker source
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.worker.js"
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.worker.js"
 
       const loadingTask = pdfjsLib.getDocument(typedarray)
       loadingTask.promise.then((pdf) => {
@@ -200,7 +213,9 @@ const CreateContract = () => {
       var canvasOffset = canvas1.getBoundingClientRect()
 
       // Get the drag_sign's offset relative to the canvas container
-      var signatureOffset = document.getElementById("drag_sign").getBoundingClientRect()
+      var signatureOffset = document
+        .getElementById("drag_sign")
+        .getBoundingClientRect()
 
       // Calculate the signature's position relative to the canvas
       var canvasX = signatureOffset.left - canvasOffset.left
@@ -242,7 +257,8 @@ const CreateContract = () => {
       day: "numeric",
     }
 
-    document.getElementById("displayed_date").textContent = currentDate.toLocaleDateString("en-us", options)
+    document.getElementById("displayed_date").textContent =
+      currentDate.toLocaleDateString("en-us", options)
 
     dragElement(document.getElementById("drag_date"))
     document.getElementById("signed_date").style.display = "block"
@@ -268,7 +284,9 @@ const CreateContract = () => {
     var canvasOffset = canvas1.getBoundingClientRect()
 
     // Get the drag_date's offset relative to the canvas container
-    var dateOffset = document.getElementById("drag_date").getBoundingClientRect()
+    var dateOffset = document
+      .getElementById("drag_date")
+      .getBoundingClientRect()
 
     // Calculate the date's position relative to the canvas
     var canvasX = dateOffset.left - canvasOffset.left
@@ -278,7 +296,8 @@ const CreateContract = () => {
 
     // Render the date text at the calculated position
 
-    var dateText = "Dated: " + document.getElementById("displayed_date").textContent
+    var dateText =
+      "Dated: " + document.getElementById("displayed_date").textContent
 
     const element = document.getElementById("displayed_date")
     var computedFontSize = window.getComputedStyle(element).fontSize
@@ -323,7 +342,9 @@ const CreateContract = () => {
     var canvasOffset = canvas1.getBoundingClientRect()
 
     // Get the drag_date's offset relative to the canvas container
-    var dateOffset = document.getElementById("drag_text").getBoundingClientRect()
+    var dateOffset = document
+      .getElementById("drag_text")
+      .getBoundingClientRect()
 
     // Calculate the date's position relative to the canvas
     var canvasX = dateOffset.left - canvasOffset.left
@@ -346,29 +367,26 @@ const CreateContract = () => {
   }
 
   const downloadPDF = () => {
-    var canvas1 = document.getElementById(`canvas-${currentPage}`)
+    const canvas = document.getElementById(`canvas-${currentPage}`)
+    const image = canvas.toDataURL("image/png") // You can change the format to 'image/jpeg' if needed
 
-    var contentWidth = canvas1.width
-    var contentHeight = canvas1.height
-
-    // Create a new PDF document
-    var pdf = new jsPDF()
-
-    console.log("🚀 ~ downloadPDF ~ pdf:", pdf)
-    // Add the image from the canvas to the PDF
-    pdf.addImage(canvas.toDataURL("image/jpeg"), "JPEG", 0, 0, contentWidth, contentHeight)
-
-    // Save the PDF
-    pdf.save("download.pdf")
+    const link = document.createElement("a")
+    link.href = image
+    link.download = "canvas-image.png" // Change the file name and extension as needed
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   useEffect(() => {
     canvas = document.getElementById("signature")
     signaturePad = new SignaturePad(canvas)
 
-    document.getElementById("clear-signature").addEventListener("click", function () {
-      signaturePad.clear()
-    })
+    document
+      .getElementById("clear-signature")
+      .addEventListener("click", function () {
+        signaturePad.clear()
+      })
   })
 
   return (
@@ -378,13 +396,17 @@ const CreateContract = () => {
           <Link to="/Esign">
             <Image src="Images/esign/leftarrow.svg"></Image>
           </Link>
-          <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3">
+          <Tabs
+            defaultActiveKey="home"
+            id="uncontrolled-tab-example"
+            className="mb-3">
             <Tab eventKey="home" title="Upload Contract">
               <div className="uploadtitle">
                 <h2>Upload Contract</h2>
                 <p>Upload a document that you wish to send.</p>
               </div>
-              <FileUpload onFileUpload={handleFileUpload} /> {/* Pass the function as prop */}
+              <FileUpload onFileUpload={handleFileUpload} />{" "}
+              {/* Pass the function as prop */}
               <div className="selecttemplete">
                 <div className="selectfilter">
                   <h4>Select From Template</h4>
@@ -532,35 +554,90 @@ const CreateContract = () => {
                   {pdfPages.map((pageNumber) => (
                     <div key={pageNumber}>
                       <h3>Page {pageNumber}</h3>
-                      <canvas id={`canvas-${pageNumber}`} class={`canvas`} width="800" height="1200"></canvas>
+                      <canvas
+                        id={`canvas-${pageNumber}`}
+                        class={`canvas`}
+                        width="800"
+                        height="1200"></canvas>
                     </div>
                   ))}
                   <div id="drag_sign">
-                    <img type="button" id="delete" src="Img\delete.png" onClick={deleteSign}></img>
-                    <img type="button" id="add" src="Img\tick.png" onClick={addSign}></img>
+                    <img
+                      type="button"
+                      id="delete"
+                      src="Img\delete.png"
+                      onClick={deleteSign}></img>
+                    <img
+                      type="button"
+                      id="add"
+                      src="Img\tick.png"
+                      onClick={addSign}></img>
                     <img id="img_v"></img>
-                    <img type="button" id="more" src="Img\more.jpg" onClick={() => moreElement("drag_sign")}></img>
-                    <img type="button" id="less" src="Img\less.png" onClick={() => lessElement("drag_sign")}></img>
+                    <img
+                      type="button"
+                      id="more"
+                      src="Img\more.jpg"
+                      onClick={() => moreElement("drag_sign")}></img>
+                    <img
+                      type="button"
+                      id="less"
+                      src="Img\less.png"
+                      onClick={() => lessElement("drag_sign")}></img>
                   </div>
                   <div id="drag_date">
                     <div>
-                      <img type="button" id="deleteForDate" src="Img\delete.png" onClick={deleteDate}></img>
-                      <img type="button" id="addForDate" src="Img\tick.png" onClick={addDate}></img>
+                      <img
+                        type="button"
+                        id="deleteForDate"
+                        src="Img\delete.png"
+                        onClick={deleteDate}></img>
+                      <img
+                        type="button"
+                        id="addForDate"
+                        src="Img\tick.png"
+                        onClick={addDate}></img>
                     </div>
                     <div>
                       <span id="signed_date">
                         Dated: <span id="displayed_date"></span>
                       </span>
                     </div>
-                    <img type="button" id="moreForDate" src="Img\more.jpg" onClick={() => moreElement("drag_date")}></img>
-                    <img type="button" id="lessForDate" src="Img\less.png" onClick={() => lessElement("drag_date")}></img>
+                    <img
+                      type="button"
+                      id="moreForDate"
+                      src="Img\more.jpg"
+                      onClick={() => moreElement("drag_date")}></img>
+                    <img
+                      type="button"
+                      id="lessForDate"
+                      src="Img\less.png"
+                      onClick={() => lessElement("drag_date")}></img>
                   </div>
                   <div id="drag_text">
-                    <img type="button" id="deleteForText" src="Img\delete.png" onClick={deleteText}></img>
-                    <img type="button" id="addForText" src="Img\tick.png" onClick={addText}></img>
-                    <input id="displayed_text" type="text" placeholder="Write here.."></input>
-                    <img type="button" id="moreForText" src="Img\more.jpg" onClick={() => moreElement("drag_text")}></img>
-                    <img type="button" id="lessForText" src="Img\less.png" onClick={() => lessElement("drag_text")}></img>
+                    <img
+                      type="button"
+                      id="deleteForText"
+                      src="Img\delete.png"
+                      onClick={deleteText}></img>
+                    <img
+                      type="button"
+                      id="addForText"
+                      src="Img\tick.png"
+                      onClick={addText}></img>
+                    <input
+                      id="displayed_text"
+                      type="text"
+                      placeholder="Write here.."></input>
+                    <img
+                      type="button"
+                      id="moreForText"
+                      src="Img\more.jpg"
+                      onClick={() => moreElement("drag_text")}></img>
+                    <img
+                      type="button"
+                      id="lessForText"
+                      src="Img\less.png"
+                      onClick={() => lessElement("drag_text")}></img>
                   </div>
                 </div>
               </div>
@@ -568,7 +645,10 @@ const CreateContract = () => {
             <Tab eventKey="profile" title="Invite Signers">
               <div className="invite">
                 <h2>Invite Signers</h2>
-                <p>Invite signers by email addresses, Telegram Handles, or wallet addresses.</p>
+                <p>
+                  Invite signers by email addresses, Telegram Handles, or wallet
+                  addresses.
+                </p>
               </div>
 
               <Table className="folders-table-1" responsive>
@@ -597,7 +677,9 @@ const CreateContract = () => {
               </div>
             </Tab>
           </Tabs>
-          <button onClick={downloadPDF}>Download</button>
+          <button class="downbutton" onClick={downloadPDF}>
+            Download
+          </button>
         </div>
       </div>
 
@@ -617,14 +699,19 @@ const CreateContract = () => {
         </div>
       </div>
 
-      <Modal show={show} size="lg" dialogClassName="modal-90w" onHide={handleClose}>
+      <Modal
+        show={show}
+        size="lg"
+        dialogClassName="modal-90w"
+        onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <div className="templetemodal">
             <div className="modaltitle">
               <div className="temtitle d-flex">
                 <h4>
-                  Non-Disclosure Agreement <Image src="Images/esign/invoiceicon.svg" className="ml-2" />{" "}
+                  Non-Disclosure Agreement{" "}
+                  <Image src="Images/esign/invoiceicon.svg" className="ml-2" />{" "}
                 </h4>
                 <Link to="/" className="">
                   waiver and release of liability
@@ -639,16 +726,25 @@ const CreateContract = () => {
           <div className="contractmodalbody">
             <div className="bgwhite">
               <h5>General Release Of Liability Form</h5>
-              <p>i, HEREBY ASSUME ALL OF THE RISKS OF PARTICIPATING IN ANA/ALL ACTIVITIES</p>
               <p>
-                Being conducted by HOST, including by way of example and not limitation, any risks that many arise from negligence
-                or carelessness on the part of the person or entities being released, frm dangerous or defective equipment or
-                property owned, maintained, or controlled by them , or because of therir possible liability without fault.{" "}
+                i, HEREBY ASSUME ALL OF THE RISKS OF PARTICIPATING IN ANA/ALL
+                ACTIVITIES
               </p>
               <p>
-                Being conducted by HOST, including by way of example and not limitation, any risks that many arise from negligence
-                or carelessness on the part of the person or entities being released, frm dangerous or defective equipment or
-                property owned, maintained, or controlled by them , or because of therir possible liability without fault.{" "}
+                Being conducted by HOST, including by way of example and not
+                limitation, any risks that many arise from negligence or
+                carelessness on the part of the person or entities being
+                released, frm dangerous or defective equipment or property
+                owned, maintained, or controlled by them , or because of therir
+                possible liability without fault.{" "}
+              </p>
+              <p>
+                Being conducted by HOST, including by way of example and not
+                limitation, any risks that many arise from negligence or
+                carelessness on the part of the person or entities being
+                released, frm dangerous or defective equipment or property
+                owned, maintained, or controlled by them , or because of therir
+                possible liability without fault.{" "}
               </p>
             </div>
           </div>
@@ -670,7 +766,11 @@ const CreateContract = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={show2} dialogClassName="modal-90w" onHide={handleClose2} className="contract">
+      <Modal
+        show={show2}
+        dialogClassName="modal-90w"
+        onHide={handleClose2}
+        className="contract">
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <div className="templetemodal d-block">
@@ -678,14 +778,20 @@ const CreateContract = () => {
               <div className="temtitle d-block">
                 <h4>How do you want to send the contract? </h4>
                 <p>
-                  Choose how you want to send your contract. Generating signing links is suitable if you are collecting signatures
-                  from a number of Signers.
+                  Choose how you want to send your contract. Generating signing
+                  links is suitable if you are collecting signatures from a
+                  number of Signers.
                 </p>
               </div>
             </div>
             <ul className="usertempl">
               <li>
-                <input type="radio" className="userinviteradio" name="userinviteradio" checked />
+                <input
+                  type="radio"
+                  className="userinviteradio"
+                  name="userinviteradio"
+                  checked
+                />
                 <div className="userinvite">
                   <Image src="Images/homepage/inviteuser.svg"></Image>
                   <h4>Invite Signers</h4>
@@ -693,21 +799,37 @@ const CreateContract = () => {
                 </div>
               </li>
               <li>
-                <input type="radio" className="userinviteradio" name="userinviteradio" />
+                <input
+                  type="radio"
+                  className="userinviteradio"
+                  name="userinviteradio"
+                />
                 <div className="userinvite">
                   <Image src="Images/homepage/genratelink.svg"></Image>
                   <h4>generate Signing Links</h4>
-                  <p>NDAs, terms of services, payments, DAO member agreements, etc.</p>
+                  <p>
+                    NDAs, terms of services, payments, DAO member agreements,
+                    etc.
+                  </p>
                 </div>
               </li>
             </ul>
-            <Link to="" className="btnblue" closeButton variant="primary" onClick={handleClose2}>
+            <Link
+              to=""
+              className="btnblue"
+              closeButton
+              variant="primary"
+              onClick={handleClose2}>
               Continue
             </Link>
           </div>
         </Modal.Body>
       </Modal>
-      <Modal show={show3} dialogClassName="modal-90w" onHide={handleClose3} className="contract">
+      <Modal
+        show={show3}
+        dialogClassName="modal-90w"
+        onHide={handleClose3}
+        className="contract">
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
           <div className="templetemodal d-block">
@@ -719,8 +841,8 @@ const CreateContract = () => {
             </div>
             <div className="copymsg">
               <p>
-                0xA0Ae84...F18daDD7 sent you a document to sign. open the link and input the password to sign the contract.{" "}
-                <br></br>
+                0xA0Ae84...F18daDD7 sent you a document to sign. open the link
+                and input the password to sign the contract. <br></br>
                 <br></br>Contract Link :https:/app.mesprotocol.com/spot/eth-usdc
               </p>
               <div className="copybutton">
